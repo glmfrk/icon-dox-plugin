@@ -1,0 +1,10 @@
+icon-dox/
+├── assets/
+│   ├── css/
+│   │   ├── icon-dox.css
+│   ├── js/
+│   │   ├── icon-dox.js
+├── includes/
+│   ├── icon-dox-settings.php
+│   ├── icon-dox-modal.php
+├── icon-dox.php
