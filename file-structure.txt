@@ -2,6 +2,8 @@ icon-dox/
 ├── assets/
 │   ├── css/
 │   │   ├── icon-dox.css
+|   |-- data/
+|   |-- |-- linecons.html
 │   ├── js/
 │   │   ├── icon-dox.js
 ├── includes/

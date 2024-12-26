@@ -28,7 +28,11 @@ function icon_dox_settings_page() {
                             </div>
                             <div name="icon_dox_library" id="icon_dox_library">
                                 <button type="button" class="open-modal" data-library="fontawesome">Font Awesome Library</button>
-                                <button type="button" class="open-modal" data-library="flaticons">Flat Icons Library</button>
+                                <button type="button" class="open-modal" data-library="iconsmind">Iconsmind Icon Library</button>
+                                <button type="button" class="open-modal" data-library="linea">Linea Icon Library</button>
+                                <button type="button" class="open-modal" data-library="linecons">Linecons Icon Library</button>
+                                <button type="button" class="open-modal" data-library="steadysets">Steadysets Icon Library</button>
+                          
                             </div>
                         </div>
                     </td>
