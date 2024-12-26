@@ -74,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             class: icon.class, // Assuming 'class' contains the styles
                             attrs: icon["data-fip-value"]
                         }));
-                        console.log(icons);
                         
                         renderIcons(); // Render icons based on the current style
                     });
@@ -136,7 +135,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Format Icon Name
     function formatIconName(icon) {
-        let result = icon.replace(/(fab|fas|fa|fa-)/gi, '').trim();
+        console.log(icon);
+        
+        let result = icon.replace(/(fab|fas|fa|fa-|iconsmind|linea|linecons|steadysets)/gi, '').trim();
         result = result.replace(/-/i, ' ').trim();
 
         // Capitalize the first letter of each word
