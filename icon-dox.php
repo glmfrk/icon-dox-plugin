@@ -19,7 +19,7 @@ function icon_dox_enqueue_assets() {
     // wp_enqueue_style('font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
     wp_enqueue_style('iconsmind-font-style', plugins_url('assets/css/iconsmind.css', __FILE__));
-    wp_enqueue_style('linea-font-style', plugins_url('assets/css/linea.css', __FILE__));
+    wp_enqueue_style('linea-font-style', plugins_url('assets/css/fonts/svg/font/style.css', __FILE__));
     wp_enqueue_style('linecon-font-style', plugins_url('assets/css/linecon.css', __FILE__));
     wp_enqueue_style('steadysets-font-style', plugins_url('assets/css/steadysets.css', __FILE__));
 
@@ -32,7 +32,9 @@ function icon_dox_enqueue_assets() {
         'ajax_url' => admin_url('admin-ajax.php'),
         'fontawesome_json_url' => plugins_url('assets/data/fortawesome.json', __FILE__),
         'iconsmind_json_url' => plugins_url('assets/data/iconsmind.json', __FILE__),
+        'linea_json_url' => plugins_url('assets/data/linea.json', __FILE__),
         'linecon_json_url' => plugins_url('assets/data/linecon.json', __FILE__),
+        'steadysets_json_url' => plugins_url('assets/data/steadysets.json', __FILE__),
     ]);
 
 }

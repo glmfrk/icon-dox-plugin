@@ -30,7 +30,7 @@ function icon_dox_settings_page() {
                                 <button type="button" class="open-modal" data-library="fontawesome">Font Awesome Library</button>
                                 <button type="button" class="open-modal" data-library="iconsmind">Iconsmind Icon Library</button>
                                 <button type="button" class="open-modal" data-library="linea">Linea Icon Library</button>
-                                <button type="button" class="open-modal" data-library="linecons">Linecons Icon Library</button>
+                                <button type="button" class="open-modal" data-library="linecon">Linecon Icon Library</button>
                                 <button type="button" class="open-modal" data-library="steadysets">Steadysets Icon Library</button>
                           
                             </div>

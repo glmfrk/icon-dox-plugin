@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const library = button.getAttribute('data-library');
             currentLibrary = library;
             modal.style.display = 'block';
+            modal.querySelector('h2').innerText = `${library.toUpperCase()} ICON LIBARAY`;
             fetchIcons(currentLibrary);
             toggleTabsVisibility(library, currentStyle); 
         });
@@ -55,9 +56,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     .then(data => {
                         icons = Object.keys(data).map(key => ({
                             name: key,
+                            class: key,
                             styles: data[key].styles,
                             unicode: data[key].unicode
                         }));
+                        
                         renderIcons(); // Render icons based on the current style
                     });
             } else if (library === 'iconsmind') {
@@ -74,7 +77,57 @@ document.addEventListener('DOMContentLoaded', () => {
                             class: icon.class, // Assuming 'class' contains the styles
                             attrs: icon["data-fip-value"]
                         }));
-                        
+                        renderIcons(); 
+                    });
+            } else if (library === 'linea') {
+                fetch(iconDoxAjax.linea_json_url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status code: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        icons = data.map(icon => ({
+                            name: icon.title,
+                            class: icon.class, // Assuming 'class' contains the styles
+                            attrs: icon["data-fip-value"]
+                        }));
+                        console.log(icons);
+                        renderIcons(); // Render icons based on the current style
+                    });
+            } else if (library === 'linecon') {
+                fetch(iconDoxAjax.linecon_json_url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status code: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        icons = data.map(icon => ({
+                            name: icon.title,
+                            class: icon.class, // Assuming 'class' contains the styles
+                            attrs: icon["data-fip-value"]
+                        }));
+
+                        renderIcons(); // Render icons based on the current style
+                    });
+            } else if (library === 'steadysets') {
+                fetch(iconDoxAjax.steadysets_json_url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status code: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        icons = data.map(icon => ({
+                            name: icon.title,
+                            class: icon.class, // Assuming 'class' contains the styles
+                            attrs: icon["data-fip-value"]
+                        }));
+
                         renderIcons(); // Render icons based on the current style
                     });
             }
@@ -106,12 +159,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             divElement.classList.add('iconItem');
             divElement.dataset.name = icon.name;
-
+            
             if (currentLibrary === 'fontawesome') {
                 const prefix = icon.styles && icon.styles.includes('brands') ? 'fab' : 'fa';
                 iconElement.className = `${prefix} fa-${icon.name}`;
             }else {
-                iconElement.className = icon.name;
+                iconElement.className = icon.class;
             }
 
 
@@ -134,10 +187,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Format Icon Name
-    function formatIconName(icon) {
-        console.log(icon);
-        
-        let result = icon.replace(/(fab|fas|fa|fa-|iconsmind|linea|linecons|steadysets)/gi, '').trim();
+    function formatIconName(icon) { 
+        let result = icon.replace(/(fab|fas|fa|fa-|iconsmind|icon-arrows|linecon|steadysets)/gi, '').trim();
         result = result.replace(/-/i, ' ').trim();
 
         // Capitalize the first letter of each word
@@ -149,7 +200,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Insert Selected Icon
     insertButton.addEventListener('click', () => {
         if (selectedIcon) {
-            const selectedIconData = icons.find(icon => icon.name === selectedIcon);
+            
+            const selectedIconData = icons.find(icon => icon.class === selectedIcon);
 
 
             // Clear existing icon in the preview container
@@ -157,12 +209,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Create a new <i> element for the selected icon
             const iconElement = document.createElement('i');
-
+            const otherLibraries = ['iconsmind', 'linea', 'linecon', 'steadysets'];
             if (currentLibrary === 'fontawesome') {
                 const prefix = selectedIconData.styles.includes('brands') ? 'fab' : 'fa';
                 iconElement.className = `${prefix} fa-${selectedIcon}`;
-            } else if (currentLibrary === 'iconsmind') {
-                iconElement.className = selectedIconData.name; 
+            } else if (otherLibraries.includes(currentLibrary)) {
+                iconElement.className = selectedIconData.class; 
             }
 
             previewContainer.appendChild(iconElement);
