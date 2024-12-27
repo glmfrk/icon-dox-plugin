@@ -44,97 +44,59 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetch Icons
     function fetchIcons(library) {
         iconContainer.innerHTML = ''; // Clear previous icons
+        let ajaxURL;
+
         try {
+
             if (library === 'fontawesome') {
-                fetch(iconDoxAjax.fontawesome_json_url)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status code: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        icons = Object.keys(data).map(key => ({
-                            name: key,
-                            class: key,
-                            styles: data[key].styles,
-                            unicode: data[key].unicode
-                        }));
-                        
-                        renderIcons(); // Render icons based on the current style
-                    });
+                ajaxURL = iconDoxAjax.fontawesome_json_url;
             } else if (library === 'iconsmind') {
-                fetch(iconDoxAjax.iconsmind_json_url)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status code: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        icons = data.map(icon => ({
-                            name: icon.title,
-                            class: icon.class, // Assuming 'class' contains the styles
-                            attrs: icon["data-fip-value"]
-                        }));
-                        renderIcons(); 
-                    });
+                ajaxURL = iconDoxAjax.iconsmind_json_url;
             } else if (library === 'linea') {
-                fetch(iconDoxAjax.linea_json_url)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status code: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        icons = data.map(icon => ({
-                            name: icon.title,
-                            class: icon.class, // Assuming 'class' contains the styles
-                            attrs: icon["data-fip-value"]
-                        }));
-                        console.log(icons);
-                        renderIcons(); // Render icons based on the current style
-                    });
+                ajaxURL = iconDoxAjax.linea_json_url;
             } else if (library === 'linecon') {
-                fetch(iconDoxAjax.linecon_json_url)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status code: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        icons = data.map(icon => ({
-                            name: icon.title,
-                            class: icon.class, // Assuming 'class' contains the styles
-                            attrs: icon["data-fip-value"]
-                        }));
-
-                        renderIcons(); // Render icons based on the current style
-                    });
+                ajaxURL = iconDoxAjax.linecon_json_url;
             } else if (library === 'steadysets') {
-                fetch(iconDoxAjax.steadysets_json_url)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! Status code: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        icons = data.map(icon => ({
-                            name: icon.title,
-                            class: icon.class, // Assuming 'class' contains the styles
-                            attrs: icon["data-fip-value"]
-                        }));
+                ajaxURL = iconDoxAjax.steadysets_json_url;
+            } 
 
-                        renderIcons(); // Render icons based on the current style
-                    });
-            }
+            fetch(ajaxURL)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status code: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+
+                icons = library === 'fontawesome' ? parseFontAwesomeData(data) : parseRandomIconsData(data);
+                
+                renderIcons(); // Render icons based on the current style
+            });
+            
         } catch (error) {
             console.error('Error fetching icons:', error);
             iconContainer.innerHTML = '<p>Error loading icons. Please try again later.</p>';
         }
+    }
+
+
+    // Icons data parsing methods 
+    function parseFontAwesomeData(data) {
+        return Object.keys(data).map(key => ({
+            name: key,
+            class: key,
+            styles: data[key].styles,
+            unicode: data[key].unicode
+        }));
+    }
+
+    function parseRandomIconsData(data) {
+        return data.map(icon => ({
+            name: icon.title,
+            class: icon.class, // Assuming 'class' contains the styles
+            attrs: icon["data-fip-value"]
+        }));
     }
 
     // Render Icons
@@ -163,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentLibrary === 'fontawesome') {
                 const prefix = icon.styles && icon.styles.includes('brands') ? 'fab' : 'fa';
                 iconElement.className = `${prefix} fa-${icon.name}`;
-            }else {
+            } else {
                 iconElement.className = icon.class;
             }
 
@@ -202,7 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (selectedIcon) {
             
             const selectedIconData = icons.find(icon => icon.class === selectedIcon);
-
 
             // Clear existing icon in the preview container
             previewContainer.innerHTML = '';
